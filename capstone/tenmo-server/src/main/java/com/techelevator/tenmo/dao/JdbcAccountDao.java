@@ -37,11 +37,11 @@ public class JdbcAccountDao implements AccountDao{
     public BigDecimal getBalance(int userID) {
         String balance = "";
 
-        String sql = "SELECT balance FROM account WHERE account_id = ?;";
+        String sql = "SELECT balance FROM account WHERE user_id = ?;";
         try {
             SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userID);
             if (result.next()) {
-                balance = result.getString(balance);
+                balance = result.getString("balance");
             }
         } catch (CannotGetJdbcConnectionException ex) {
             throw new DaoException("Unable to connect to server or database", ex);

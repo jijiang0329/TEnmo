@@ -12,10 +12,9 @@ public class App {
 
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
-
+    private AccountService accountService =  new AccountService();
     private AuthenticatedUser currentUser;
 
-    private AccountService accountService =  new AccountService();
 
 
     public static void main(String[] args) {
@@ -91,7 +90,8 @@ public class App {
 
 	private void viewCurrentBalance() {
 		// TODO Auto-generated method stub
-		
+        System.out.println("Your current account balance is: $2" +
+                "" + accountService.getBalance());;
 	}
 
 	private void viewTransferHistory() {

@@ -22,16 +22,17 @@ public class AccountService {
         this.authToken = authToken;
     }
 
- public Account getAccount() {
-      Account account = null;
-      try{
-          ResponseEntity<Account> response = restTemplate.exchange(API_BASE_URL + "account", HttpMethod.GET, makeAuthEntity(), Account.class);
-          account = response.getBody();
-      } catch (RestClientResponseException | ResourceAccessException ex) {
+
+    public BigDecimal getBalance() {
+        BigDecimal balance = null;
+        try{
+          ResponseEntity<BigDecimal> response = restTemplate.exchange(API_BASE_URL + "account", HttpMethod.GET, makeAuthEntity(), BigDecimal.class);
+          balance = response.getBody();
+         } catch (RestClientResponseException | ResourceAccessException ex) {
           BasicLogger.log(ex.getMessage());
-      }
-      return account;
- }
+         }
+        return balance;
+    }
 
     private HttpEntity<Void> makeAuthEntity() {
         HttpHeaders headers = new HttpHeaders();
