@@ -7,15 +7,16 @@ import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 
+import java.util.Scanner;
+
 public class App {
 
     private static final String API_BASE_URL = "http://localhost:8080/";
 
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
-    private AccountService accountService =  new AccountService();
+    private AccountService accountService = new AccountService();
     private AuthenticatedUser currentUser;
-
 
 
     public static void main(String[] args) {
@@ -30,6 +31,7 @@ public class App {
             mainMenu();
         }
     }
+
     private void loginMenu() {
         int menuSelection = -1;
         while (menuSelection != 0 && currentUser == null) {
@@ -89,62 +91,63 @@ public class App {
         }
     }
 
-	private void viewCurrentBalance() {
-		// TODO Auto-generated method stub
+    private void viewCurrentBalance() {
+        // TODO Auto-generated method stub
         System.out.println("Your current account balance is: $2" +
-                "" + accountService.getBalance());;
-	}
+                "" + accountService.getBalance());
+        ;
+    }
 
-	private void viewTransferHistory() {
-		// TODO Auto-generated method stub
-		
-	}
+    private void viewTransferHistory() {
+        // TODO Auto-generated method stub
 
-	private void viewPendingRequests() {
-		// TODO Auto-generated method stub
-		
-	}
+    }
 
-	private void sendBucks() {
-		// TODO Auto-generated method stub
+    private void viewPendingRequests() {
+        // TODO Auto-generated method stub
+
+    }
+
+    private void sendBucks() {
+        // TODO Auto-generated method stub
         User[] users = accountService.listUsers();
         System.out.println("-------------------------------------------");
-        System.out.println("USER ID     " + "NAME" );
+        System.out.println("USER ID     " + "NAME");
+        System.out.println("-------------------------------------------");
 //        for(User user : users) {
 //
 //            if(!user.getUsername().equals(currentUser.getUser().getUsername())) {
 //                System.out.println(user.getId() + "        " + user.getUsername());
 //            }
 //        }
-        for(User user : users) {
+        for (User user : users) {
             System.out.println(user.getId() + "        " + user.getUsername());
         }
-        System.out.println("-------------------------------------------");
-		
-	}
+        System.out.println("---------");
+        getUserTransferTo();
+    }
 
-	private void requestBucks() {
-		// TODO Auto-generated method stub
-		
-	}
+    private void requestBucks() {
+        // TODO Auto-generated method stub
 
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    private void getUserTransferTo() {
+        System.out.println("Enter ID of user you are sending to (0 to cancel): ");
+        Scanner scanner = new Scanner(System.in);
+        String userInput = scanner.nextLine();
+        int userId = Integer.parseInt(userInput);
+        if (userId == 0) {
+            break;
+        }
+        while (userId != 0) {
+            System.out.println("Enter amount: ");
+            String userInputAmount = scanner.nextLine();
+            int transferAmount = Integer.parseInt(userInputAmount);
+        }
 
 
+    }
 
 
 }
