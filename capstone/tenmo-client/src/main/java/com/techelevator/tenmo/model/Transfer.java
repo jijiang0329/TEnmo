@@ -1,20 +1,13 @@
 package com.techelevator.tenmo.model;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
 public class Transfer {
     private int transfer_id;
     private int transfer_type_id;
     private int transfer_status_id;
-
     private int account_from;
-    @NotNull(message =  "Transfer to account must not be blank ")
     private int account_to;
-    @NotNull(message =  "Transfer amount must not be blank ")
     private int amount;
-
-    public Transfer() { }
+    public Transfer() {}
 
     public Transfer(int transfer_id, int transfer_type_id, int transfer_status_id, int account_from, int account_to, int amount) {
         this.transfer_id = transfer_id;

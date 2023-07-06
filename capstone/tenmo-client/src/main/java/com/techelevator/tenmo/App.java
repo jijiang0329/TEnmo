@@ -1,6 +1,7 @@
 package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AccountService;
@@ -80,6 +81,14 @@ public class App {
                 viewPendingRequests();
             } else if (menuSelection == 4) {
                 sendBucks();
+                int transferto = getUserTransferTo();
+                if(transferto == 0) continue;
+
+                Transfer transfer = new Transfer();
+                transfer.setAmount(getAmountTransferTo());
+                transfer.setAccount_to(transferto);
+                transfer.setAccount_from(currentUser.getUser().getId());
+                accountService.transfer(transfer);
             } else if (menuSelection == 5) {
                 requestBucks();
             } else if (menuSelection == 0) {
@@ -124,7 +133,7 @@ public class App {
             System.out.println(user.getId() + "        " + user.getUsername());
         }
         System.out.println("---------");
-        getUserTransferTo();
+
     }
 
     private void requestBucks() {
@@ -132,20 +141,22 @@ public class App {
 
     }
 
-    private void getUserTransferTo() {
+    private int getUserTransferTo() {
         System.out.println("Enter ID of user you are sending to (0 to cancel): ");
         Scanner scanner = new Scanner(System.in);
         String userInput = scanner.nextLine();
         int userId = Integer.parseInt(userInput);
-        if (userId == 0) {
-            break;
-        }
-        while (userId != 0) {
-            System.out.println("Enter amount: ");
-            String userInputAmount = scanner.nextLine();
-            int transferAmount = Integer.parseInt(userInputAmount);
-        }
+        //TODO make 0 to cancel
+        return userId;
+    }
+    private int getAmountTransferTo() {
+        Scanner scanner = new Scanner(System.in);
+        int transferAmount = 0;
+        System.out.println("Enter amount: ");
+        String userInputAmount = scanner.nextLine();
+        transferAmount = Integer.parseInt(userInputAmount);
 
+        return  transferAmount;
 
     }
 
