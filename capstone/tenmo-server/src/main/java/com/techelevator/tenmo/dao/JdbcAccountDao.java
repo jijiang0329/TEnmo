@@ -28,10 +28,6 @@ public class JdbcAccountDao implements AccountDao{
         return 0;
     }
 
-    @Override
-    public BigDecimal getBalance() {
-        return null;
-    }
 
     @Override
     public BigDecimal getBalance(int userID) {

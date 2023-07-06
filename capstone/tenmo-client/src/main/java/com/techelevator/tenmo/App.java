@@ -1,6 +1,7 @@
 package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
@@ -106,6 +107,19 @@ public class App {
 
 	private void sendBucks() {
 		// TODO Auto-generated method stub
+        User[] users = accountService.listUsers();
+        System.out.println("-------------------------------------------");
+        System.out.println("USER ID     " + "NAME" );
+//        for(User user : users) {
+//
+//            if(!user.getUsername().equals(currentUser.getUser().getUsername())) {
+//                System.out.println(user.getId() + "        " + user.getUsername());
+//            }
+//        }
+        for(User user : users) {
+            System.out.println(user.getId() + "        " + user.getUsername());
+        }
+        System.out.println("-------------------------------------------");
 		
 	}
 
@@ -113,5 +127,24 @@ public class App {
 		// TODO Auto-generated method stub
 		
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
