@@ -116,9 +116,18 @@ public class App {
         System.out.println("-------------------------------------------");
         //TODO finish this method
         for (Transfer transfer : transfers) {
-            System.out.println(transfer.getTransfer_id() + "        " + transfer.getUsername() + "       " + transfer.getAmount());
+            System.out.println(transfer.getTransfer_id() + "        " + "TO: " + transfer.getAccount_to() + "       " + "$" +transfer.getAmount());
         }
         System.out.println("---------");
+
+    }
+
+    private void viewTransferDetails() {
+        System.out.println("Please enter transfer ID to view details (0 to cancel): ");
+        Scanner scanner = new Scanner(System.in);
+        String userInput = scanner.nextLine();
+        int transferId = Integer.parseInt(userInput);
+
 
     }
 

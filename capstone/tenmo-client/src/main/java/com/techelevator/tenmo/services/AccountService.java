@@ -42,7 +42,7 @@ public class AccountService {
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
-        return transfers
+        return transfers;
     }
 
     public BigDecimal getBalance() {

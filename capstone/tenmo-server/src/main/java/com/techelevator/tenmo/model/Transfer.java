@@ -2,6 +2,7 @@ package com.techelevator.tenmo.model;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 public class Transfer {
     private int transfer_id;
@@ -12,7 +13,7 @@ public class Transfer {
     @NotNull(message =  "Transfer to account must not be blank ")
     private int account_to;
     @NotNull(message =  "Transfer amount must not be blank ")
-    private int amount;
+    private BigDecimal amount;
 
     private static String TRANSFER_STATUS_PENDING = "Pending";
     private static  int TRANSFER_STATUS_PENDING_ID = 1;
@@ -22,7 +23,7 @@ public class Transfer {
 
     public Transfer() { }
 
-    public Transfer(int transfer_id, int transfer_type_id, int account_from, int account_to, int amount) {
+    public Transfer(int transfer_id, int transfer_type_id, int account_from, int account_to, BigDecimal amount) {
         this.transfer_id = transfer_id;
         this.transfer_type_id = transfer_type_id;
         this.transfer_status_id = TRANSFER_STATUS_APPROVED_ID;
@@ -71,11 +72,11 @@ public class Transfer {
         this.account_to = account_to;
     }
 
-    public int getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 }

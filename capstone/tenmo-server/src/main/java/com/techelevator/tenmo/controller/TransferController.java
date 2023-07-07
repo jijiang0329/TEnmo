@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.security.Principal;
+import java.util.List;
 
 @RestController
 @PreAuthorize("isAuthenticated()")
@@ -29,9 +31,11 @@ public class TransferController {
         return transferDao.createTransfer(transfer);
     }
     @RequestMapping(path= "transfer", method = RequestMethod.GET)
-    public Transfer list(@Valid @RequestBody Transfer transfer) {
+    public List<Transfer> list(Principal principal) {
         // TODO create list for FROM/TO transfers
-        return transferDao.createTransfer(transfer);
+        int userID = transferDao.getAccountIdByUserId(userDao.getUserByUsername(principal.getName()).getId());
+        int accountFrom = accountDao.getAccountIdByUserId(userID);
+        return transferDao.getTransfersTo(accountFrom);
     }
     @RequestMapping(path= "transfer/{id}", method = RequestMethod.GET)
     public Transfer getTransferDetail(@Valid @PathVariable int transferID) {
