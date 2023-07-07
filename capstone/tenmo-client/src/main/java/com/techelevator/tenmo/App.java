@@ -77,13 +77,14 @@ public class App {
                 viewCurrentBalance();
             } else if (menuSelection == 2) {
                 viewTransferHistory();
+
+
             } else if (menuSelection == 3) {
                 viewPendingRequests();
             } else if (menuSelection == 4) {
                 sendBucks();
                 int transferto = getUserTransferTo();
                 if(transferto == 0) continue;
-                // TODO still need to change userID to accountID
                 Transfer transfer = new Transfer();
                 transfer.setAmount(getAmountTransferTo());
                 transfer.setAccount_to(transferto);
