@@ -49,6 +49,28 @@ public class JdbcTransferDao implements TransferDao{
     }
 
     @Override
+    public int getAccountIdByUserId(int userID) {
+        int accountId = 0;
+        String sql = "select account_id\n" +
+                "from account a\n" +
+                "join user u on u.user_id = a.user_id\n" +
+                "where a.user_id = ?;";
+        try {
+            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userID);
+            if (result.next()) {
+                accountId = result.getInt("account_id");
+            }
+        } catch (CannotGetJdbcConnectionException ex) {
+            throw new DaoException("Unable to connect to server or database", ex);
+        }
+        catch (Exception ex) {
+            throw new DaoException("Something went wrong!", ex);
+        }
+
+        return accountId;
+    }
+
+    @Override
     public Transfer createTransfer(Transfer transfer) {
         Transfer newTransfer = null;
 
@@ -56,15 +78,15 @@ public class JdbcTransferDao implements TransferDao{
                 "VALUES (?, ?, ?, ?, ?) RETURNING transfer_id";
 
         try {
-            int newTranferId = jdbcTemplate.queryForObject(sql, int.class, transfer.getTransfer_type_id(), transfer.getTransfer_status_id(),transfer.getAccount_from(), transfer.getAccount_to(), transfer.getAmount());
-            newTransfer = getTransferById(newTranferId);
+            int newTransferId = jdbcTemplate.queryForObject(sql, int.class, transfer.getTransfer_type_id(), transfer.getTransfer_status_id(),transfer.getAccount_from(), transfer.getAccount_to(), transfer.getAmount());
+            newTransfer = getTransferById(newTransferId);
             if (newTransfer != null) {
 
                 sql = "UPDATE account SET amount=amount - ? WHERE account_id = ? ";
-                jdbcTemplate.update(sql, transfer.getAmount(), transfer.getAccount_from() );
+                jdbcTemplate.update(sql, transfer.getAmount(), getAccountIdByUserId(transfer.getAccount_from()) );
 
                 sql = "UPDATE account SET amount=amount + ? WHERE account_id = ? ";
-                jdbcTemplate.update(sql, transfer.getAmount(), transfer.getAccount_to() );
+                jdbcTemplate.update(sql, transfer.getAmount(), getAccountIdByUserId(transfer.getAccount_to()) );
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);

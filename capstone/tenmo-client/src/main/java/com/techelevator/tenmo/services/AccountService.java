@@ -1,6 +1,5 @@
 package com.techelevator.tenmo.services;
 
-import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.util.BasicLogger;
@@ -34,6 +33,17 @@ public class AccountService {
         }
         return users;
     }
+    public Transfer[] listTransfers() {
+        Transfer[] transfers = null;
+        try {
+            ResponseEntity<Transfer[]> response = restTemplate.exchange(API_BASE_URL + "transfer", HttpMethod.GET,
+                    makeAuthEntity(), Transfer[].class);
+            transfers = response.getBody();
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return transfers
+    }
 
     public BigDecimal getBalance() {
         BigDecimal balance = null;
@@ -45,7 +55,7 @@ public class AccountService {
          }
         return balance;
     }
-    public void transfer(Transfer transfer) {
+    public void createSendTransfer(Transfer transfer) {
 
         try{
             ResponseEntity<Transfer> response = restTemplate.exchange(API_BASE_URL + "transfer", HttpMethod.POST, makeAuthEntityTrans(transfer), Transfer.class);

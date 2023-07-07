@@ -30,9 +30,6 @@ public class User {
       return id;
    }
 
-   public int getAccountIdByUser(int userId) {
-      //TODO to change account# from userId
-   }
 
 
    public void setId(int id) {

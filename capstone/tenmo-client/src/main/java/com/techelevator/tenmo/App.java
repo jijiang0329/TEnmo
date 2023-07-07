@@ -83,12 +83,12 @@ public class App {
                 sendBucks();
                 int transferto = getUserTransferTo();
                 if(transferto == 0) continue;
-
+                // TODO still need to change userID to accountID
                 Transfer transfer = new Transfer();
                 transfer.setAmount(getAmountTransferTo());
                 transfer.setAccount_to(transferto);
                 transfer.setAccount_from(currentUser.getUser().getId());
-                accountService.transfer(transfer);
+                accountService.createSendTransfer(transfer);
             } else if (menuSelection == 5) {
                 requestBucks();
             } else if (menuSelection == 0) {
@@ -101,14 +101,24 @@ public class App {
     }
 
     private void viewCurrentBalance() {
-        // TODO Auto-generated method stub
-        System.out.println("Your current account balance is: $2" +
+        // TODO balance not updating
+        System.out.println("Your current account balance is: $" +
                 "" + accountService.getBalance());
+
         ;
     }
 
     private void viewTransferHistory() {
         // TODO Auto-generated method stub
+        Transfer[] transfers = accountService.listTransfers();
+        System.out.println("-------------------------------------------");
+        System.out.println("TRANSFERS ID     " +"FROM/TO       " + "AMOUNT");
+        System.out.println("-------------------------------------------");
+        //TODO finish this method
+        for (Transfer transfer : transfers) {
+            System.out.println(transfer.getTransfer_id() + "        " + transfer.getUsername() + "       " + transfer.getAmount());
+        }
+        System.out.println("---------");
 
     }
 
@@ -146,7 +156,11 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         String userInput = scanner.nextLine();
         int userId = Integer.parseInt(userInput);
-        //TODO make 0 to cancel
+
+        if(userId == currentUser.getUser().getId()) {
+            System.out.println("You cannot transfer to your own account");
+            return 0;
+        }
         return userId;
     }
     private int getAmountTransferTo() {
@@ -155,7 +169,10 @@ public class App {
         System.out.println("Enter amount: ");
         String userInputAmount = scanner.nextLine();
         transferAmount = Integer.parseInt(userInputAmount);
-
+        if(transferAmount<=0 || transferAmount> accountService.getBalance().intValue()) {
+            System.out.println("Please enter a valid amount");
+            return getAmountTransferTo();
+        }
         return  transferAmount;
 
     }

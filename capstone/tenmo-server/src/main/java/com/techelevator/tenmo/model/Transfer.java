@@ -14,12 +14,18 @@ public class Transfer {
     @NotNull(message =  "Transfer amount must not be blank ")
     private int amount;
 
+    private static String TRANSFER_STATUS_PENDING = "Pending";
+    private static  int TRANSFER_STATUS_PENDING_ID = 1;
+    private static String TRANSFER_STATUS_APPROVED = "Approved";
+    private static  int TRANSFER_STATUS_APPROVED_ID = 2;
+
+
     public Transfer() { }
 
-    public Transfer(int transfer_id, int transfer_type_id, int transfer_status_id, int account_from, int account_to, int amount) {
+    public Transfer(int transfer_id, int transfer_type_id, int account_from, int account_to, int amount) {
         this.transfer_id = transfer_id;
         this.transfer_type_id = transfer_type_id;
-        this.transfer_status_id = transfer_status_id;
+        this.transfer_status_id = TRANSFER_STATUS_APPROVED_ID;
         this.account_from = account_from;
         this.account_to = account_to;
         this.amount = amount;
