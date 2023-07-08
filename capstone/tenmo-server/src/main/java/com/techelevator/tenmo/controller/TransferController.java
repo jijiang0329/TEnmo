@@ -4,6 +4,7 @@ import com.techelevator.tenmo.dao.AccountDao;
 import com.techelevator.tenmo.dao.TransferDao;
 import com.techelevator.tenmo.dao.UserDao;
 import com.techelevator.tenmo.model.Transfer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ import java.util.List;
 public class TransferController {
     private TransferDao transferDao;
     private AccountDao accountDao;
-
+    @Autowired
     private UserDao userDao;
 
     public TransferController(TransferDao transferDao, AccountDao accountDao) {
@@ -33,13 +34,13 @@ public class TransferController {
     @RequestMapping(path= "transfer", method = RequestMethod.GET)
     public List<Transfer> list(Principal principal) {
         // TODO create list for FROM/TO transfers
-        int userID = transferDao.getAccountIdByUserId(userDao.getUserByUsername(principal.getName()).getId());
+        int userID = userDao.getUserByUsername(principal.getName()).getId();
         int accountFrom = accountDao.getAccountIdByUserId(userID);
         return transferDao.getTransfersTo(accountFrom);
     }
     @RequestMapping(path= "transfer/{id}", method = RequestMethod.GET)
-    public Transfer getTransferDetail(@Valid @PathVariable int transferID) {
-        Transfer transfer = transferDao.getTransferById(transferID);
+    public Transfer getTransferDetail(@PathVariable int id) {
+        Transfer transfer = transferDao.getTransferById(id);
         if(transfer == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Transfer not found.");
         } else {

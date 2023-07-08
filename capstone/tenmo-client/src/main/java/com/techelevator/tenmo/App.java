@@ -77,8 +77,6 @@ public class App {
                 viewCurrentBalance();
             } else if (menuSelection == 2) {
                 viewTransferHistory();
-
-
             } else if (menuSelection == 3) {
                 viewPendingRequests();
             } else if (menuSelection == 4) {
@@ -116,11 +114,11 @@ public class App {
         System.out.println("TRANSFERS ID     " +"FROM/TO       " + "AMOUNT");
         System.out.println("-------------------------------------------");
         //TODO finish this method
-        for (Transfer transfer : transfers) {
+        for (Transfer transfer : transfers) {                                    //userService.getUserNameById(    transfer.getAccount_to())
             System.out.println(transfer.getTransfer_id() + "        " + "TO: " + transfer.getAccount_to() + "       " + "$" +transfer.getAmount());
         }
         System.out.println("---------");
-
+        viewTransferDetails();
     }
 
     private void viewTransferDetails() {
@@ -128,8 +126,18 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         String userInput = scanner.nextLine();
         int transferId = Integer.parseInt(userInput);
-
-
+        if(transferId == 0) viewTransferHistory();
+        //TODO to replace all the information
+        Transfer tranfer= accountService.transferbyId(transferId);
+        System.out.println("-------------------------------------------");
+        System.out.println("TRANSFER DETAILS");
+        System.out.println("-------------------------------------------");
+        System.out.println(" Id: " + transferId + "\n" +
+                " From: " + tranfer.getAccount_from() + "\n" +
+                " To: " + tranfer.getAccount_to() + '\n' +
+                " Type: Send\n" +
+                " Status: Approved\n" +
+                " Amount: " + tranfer.getAmount());
     }
 
     private void viewPendingRequests() {

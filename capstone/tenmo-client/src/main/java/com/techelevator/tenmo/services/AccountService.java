@@ -45,6 +45,18 @@ public class AccountService {
         return transfers;
     }
 
+    public Transfer transferbyId(int transferID) {
+        Transfer transfer = null;
+        try {
+            ResponseEntity<Transfer> response = restTemplate.exchange(API_BASE_URL + "transfer/" + transferID, HttpMethod.GET,
+                    makeAuthEntity(), Transfer.class);
+            transfer = response.getBody();
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return transfer;
+    }
+
     public BigDecimal getBalance() {
         BigDecimal balance = null;
         try{
@@ -63,6 +75,16 @@ public class AccountService {
         } catch (RestClientResponseException | ResourceAccessException ex) {
             BasicLogger.log(ex.getMessage());
         }
+    }
+    public String getUserName() {
+        String userName = null;
+        try{
+            ResponseEntity<String> response = restTemplate.exchange(API_BASE_URL + "user", HttpMethod.GET, makeAuthEntity(), String.class);
+            userName = response.getBody();
+        } catch (RestClientResponseException | ResourceAccessException ex) {
+            BasicLogger.log(ex.getMessage());
+        }
+        return userName;
     }
     private HttpEntity<Transfer> makeAuthEntityTrans(Transfer transfer) {
         HttpHeaders headers = new HttpHeaders();
